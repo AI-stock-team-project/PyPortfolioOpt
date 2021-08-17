@@ -15,11 +15,18 @@ from pypfopt.discrete_allocation import DiscreteAllocation, get_latest_prices
 from pypfopt import plotting
 import warnings
 warnings.filterwarnings(action='ignore')
+import csv
 
 today = datetime.datetime.today().strftime("%Y%m%d")
 kospi = stock.get_market_fundamental_by_ticker(today, market='KOSPI').index
 kosdaq = stock.get_market_fundamental_by_ticker(today, market='KOSDAQ').index
 stocks = kospi.append(kosdaq)
+#
+# with open('stocks.csv', 'w') as file:
+#     write = csv.writer(file)
+#     write.writerow(stocks)
+
+# stocks = pd.read_csv('stocks.csv')
 
 class Strategies:
     def __init__(self, code_instance, stocks_1mo, stocks_3mos, code_updown, stocks_updown, indexName, start_date, bool_var,
@@ -78,7 +85,8 @@ class Strategies:
     # 모멘텀 1개월 함수
     def momentum_1month():  # 종목 list넣으면, 모멘텀 순위 있는 데이터프레임 출력
         df_momentum = pd.DataFrame()
-        for s in stocks:
+
+        for s in stocks : #Strategies.today_stocks():
             df_momentum[s] = fdr.DataReader(s, '2021-01-01')['Close']
 
         # 20 영업일 수익률
@@ -214,10 +222,7 @@ class Strategies:
         long_signal = (rank <= n_selection).applymap(Strategies.bool_converter)
         rel_signal = long_signal[-1:]
 
-        # dual momentum
+        # Dual momentum
         signal = (abs_signal == rel_signal).applymap(Strategies.bool_converter) * abs_signal
         dual_momentum_list = list(signal[signal == 1].dropna(axis=1).columns)
         return dual_momentum_list
-
-# if __name__ == "__main__":
-#     strategies = Strategies()

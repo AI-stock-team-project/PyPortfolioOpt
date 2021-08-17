@@ -214,6 +214,7 @@ class Strategies:
         long_signal = (rank <= n_selection).applymap(Strategies.bool_converter)
         rel_signal = long_signal[-1:]
 
+        # Dual momentum
         signal = (abs_signal == rel_signal).applymap(Strategies.bool_converter) * abs_signal
         dual_momentum_list = list(signal[signal == 1].dropna(axis=1).columns)
         return dual_momentum_list
