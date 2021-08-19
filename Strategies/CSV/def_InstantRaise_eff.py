@@ -168,6 +168,7 @@ def InstanceRaise_eff():
     plt.xlabel('Date', fontsize=18, labelpad=7)
     plt.ylabel('Return', fontsize=18, labelpad=7)
     plt.legend(loc='best')
+    plt.savefig('InstantRaise_eff_return.png', dpi=100)
     plt.show()
 
     # 변동률 비교
@@ -185,11 +186,12 @@ def InstanceRaise_eff():
     plt.subplot(2, 1, 2)
     plt.title('Volatility Trend')
     plt.plot(result.index, result.PORTFOLIO, 'b', label="PORTFOLIO(Speedy Rising)")
-    # plt.yticks([-0.15, -0.10, -0.05, 0.00, 0.05, 0.10, 0.15])
+    plt.yticks([-0.15, -0.10, -0.05, 0.00, 0.05, 0.10, 0.15])
     plt.ylabel('Volatility', fontsize=18, labelpad=7)
     plt.legend(loc='best')
 
     plt.grid(True)
+    plt.savefig('InstantRaise_eff_votality.png', dpi=100)
     plt.show()
     ############## ------------print------------- #####################
     print('----- Speedy rising portfolio performance -----')

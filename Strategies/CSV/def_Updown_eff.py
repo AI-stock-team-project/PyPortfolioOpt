@@ -161,6 +161,7 @@ def Updown_eff():
     plt.xlabel('Date', fontsize=18, labelpad=7)
     plt.ylabel('Return', fontsize=18, labelpad=7)
     plt.legend(loc='best')
+    plt.savefig('Updown_eff_return.png', dpi=100)
     plt.show()
 
     # 변동률 비교
@@ -178,11 +179,12 @@ def Updown_eff():
     plt.subplot(2, 1, 2)
     plt.title('Volatility Trend')
     plt.plot(result.index, result.PORTFOLIO, 'b', label="PORTFOLIO(Up.Down.Zero)")
-    # plt.yticks([-0.15, -0.10, -0.05, 0.00, 0.05, 0.10, 0.15])
+    plt.yticks([-0.15, -0.10, -0.05, 0.00, 0.05, 0.10, 0.15])
     plt.ylabel('Volatility', fontsize=18, labelpad=7)
     plt.legend(loc='best')
 
     plt.grid(True)
+    plt.savefig('Updown_eff_votality.png', dpi=100)
     plt.show()
 
     # print(portfolio_df_sorted) # 데이터 프레임 출력시 시간이 걸림.

@@ -158,6 +158,7 @@ def Dual_sharpe():
     plt.xlabel('Date', fontsize=18, labelpad=7)
     plt.ylabel('Return', fontsize=18, labelpad=7)
     plt.legend(loc='best')
+    plt.savefig('Dual_sharpe_return.png', dpi=100)
     plt.show()
 
     # 변동률 비교
@@ -180,6 +181,7 @@ def Dual_sharpe():
     plt.legend(loc='best')
 
     plt.grid(True)
+    plt.savefig('Dual_sharpe_votality.png', dpi=100)
     plt.show()
 
     # print(portfolio_df_sorted) # 데이터 프레임 출력시 시간이 걸림.

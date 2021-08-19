@@ -158,6 +158,7 @@ def Momentum1mo_eff():
     plt.xlabel('Date', fontsize=18, labelpad=7)
     plt.ylabel('Return', fontsize=18, labelpad=7)
     plt.legend(loc='best')
+    plt.savefig('Momentum_1mo_eff_return.png', dpi=100)
     plt.show()
 
     # 변동률 비교
@@ -175,11 +176,12 @@ def Momentum1mo_eff():
     plt.subplot(2, 1, 2)
     plt.title('Volatility Trend')
     plt.plot(result.index, result.PORTFOLIO, 'b', label="PORTFOLIO(Momentum 1month)")
-    # plt.yticks([-0.15, -0.10, -0.05, 0.00, 0.05, 0.10, 0.15])
+    plt.yticks([-0.15, -0.10, -0.05, 0.00, 0.05, 0.10, 0.15])
     plt.ylabel('Volatility', fontsize=18, labelpad=7)
     plt.legend(loc='best')
 
     plt.grid(True)
+    plt.savefig('Momentum_1mo_eff_votality.png', dpi=100)
     plt.show()
 
     print('----- Momentum 1month eff portfolio performance -----')

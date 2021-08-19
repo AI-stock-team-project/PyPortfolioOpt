@@ -157,6 +157,7 @@ def Momentum3mos_sharpe():
     plt.xlabel('Date', fontsize=18, labelpad=7)
     plt.ylabel('Return', fontsize=18, labelpad=7)
     plt.legend(loc='best')
+    plt.savefig('Momentum_3mo_sharpe_return.png', dpi=100)
     plt.show()
 
     # 변동률 비교
@@ -174,11 +175,12 @@ def Momentum3mos_sharpe():
     plt.subplot(2, 1, 2)
     plt.title('Volatility Trend')
     plt.plot(result.index, result.PORTFOLIO, 'b', label="PORTFOLIO(Momentum 3month)")
-    # plt.yticks([-0.15, -0.10, -0.05, 0.00, 0.05, 0.10, 0.15])
+    plt.yticks([-0.15, -0.10, -0.05, 0.00, 0.05, 0.10, 0.15])
     plt.ylabel('Volatility', fontsize=18, labelpad=7)
     plt.legend(loc='best')
 
     plt.grid(True)
+    plt.savefig('Momentum_3mo_sharpe_votality.png', dpi=100)
     plt.show()
 
     print('----- Momentum 3month sharpe portfolio performance -----')
