@@ -50,7 +50,7 @@ def stock_prediction(ticker, start_date, end_date = datetime.datetime.now().strf
     model.summary()
 
     model.compile(optimizer='adam', loss='mean_squared_error')
-    model.fit(train_x, train_y, epochs=60, batch_size=30)
+    model.fit(train_x, train_y, epochs=60, batch_size=32)
     pred_y = model.predict(test_x)
 
     # Visualising the results
