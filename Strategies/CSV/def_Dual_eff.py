@@ -17,14 +17,15 @@ warnings.filterwarnings(action='ignore')
 from Class_Strategies import Strategies
 import csv
 
-# stock_dual = Strategies.getHoldingsList('KOSPI')
-# prices = Strategies.getCloseDatafromList(stock_dual, '2021-01-01')
-# dualmomentumlist = Strategies.DualMomentum(prices, lookback_period = 20, n_selection = len(stock_dual)//2)
+stock_dual = Strategies.getHoldingsList('KOSPI')
+prices = Strategies.getCloseDatafromList(stock_dual, '2021-01-01')
+dualmomentumlist = Strategies.DualMomentum(prices, lookback_period = 20, n_selection = len(stock_dual)//2)
 # # print(dualmomentumlist)
 #
 # with open('dualmomentumlist.csv','w') as file:
 #     write = csv.writer(file)
 #     write.writerow(dualmomentumlist)
+
 
 def Dual_eff():
     # 종목 이름 및 코드
@@ -33,12 +34,18 @@ def Dual_eff():
     code_name_dict = pd.concat([kospi_temp, kosdaq_temp])
     code_name_dict = code_name_dict.set_index('Symbol').to_dict().get('Name')  # {'095570': 'AJ네트웍스',
 
-    assets = pd.read_csv('dualmomentumlist.csv') #np.array(dualmomentumlist)
+    #assets = pd.read_csv('dualmomentumlist.csv') #np.array(dualmomentumlist)
     start_date = datetime.datetime.today() - relativedelta(years=3)
     start_date = start_date.strftime('%Y%m%d')
     today = datetime.datetime.today().strftime("%Y%m%d")
     end_date = today
     df = pd.DataFrame()
+    ##################### 여기 추가됐습니다 : 관리종목 제거 ######################
+    temp_assets = np.array(dualmomentumlist)
+    krx_adm = fdr.StockListing('KRX-ADMINISTRATIVE')
+    # KRX 관리종목의 종목코드
+    under_ctrl = krx_adm['Symbol'].values
+    assets = np.setdiff1d(temp_assets, under_ctrl)
 
     for s in assets:
         df[s] = fdr.DataReader(s, start_date, end_date)['Close']

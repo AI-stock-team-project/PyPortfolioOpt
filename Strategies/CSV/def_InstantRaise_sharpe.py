@@ -18,11 +18,11 @@ warnings.filterwarnings(action='ignore')
 from Class_Strategies import Strategies as st
 
 # 급등주
-# speedy_rising_volume_list_df = pd.DataFrame({'speedy_rising_volume_list':st.run()})
+speedy_rising_volume_list_df = pd.DataFrame({'speedy_rising_volume_list':st.run()})
 # speedy_rising_volume_list_df.to_csv("speedy_rising_volume_list_df.csv")
 
 # csv 불러오기
-speedy_rising_volume_list_df = pd.read_csv('speedy_rising_volume_list_df.csv')
+# speedy_rising_volume_list_df = pd.read_csv('speedy_rising_volume_list_df.csv')
 # 종목코드 6자리로 맞춰주기
 speedy_rising_volume_list_df['speedy_rising_volume_list'] = speedy_rising_volume_list_df['speedy_rising_volume_list'].apply(lambda x: '{0:0>6}'.format(x))
 
@@ -34,13 +34,19 @@ def InstanceRaise_sharpe():
     code_name_dict = pd.concat([kospi_temp, kosdaq_temp])
     code_name_dict = code_name_dict.set_index('Symbol').to_dict().get('Name')  # {'095570': 'AJ네트웍스',
 
-    asset = speedy_rising_volume_list_df['speedy_rising_volume_list']
-    assets = np.array(asset.values)
+    # asset = speedy_rising_volume_list_df['speedy_rising_volume_list']
+    # assets = np.array(asset.values)
     start_date = datetime.datetime.today() - relativedelta(years=3)
     start_date = start_date.strftime('%Y%m%d')
     today = datetime.datetime.today().strftime("%Y%m%d")
     end_date = today
     df= pd.DataFrame()
+    ##################### 여기 추가됐습니다 : 관리종목 제거 ######################
+    temp_assets = np.array(speedy_rising_volume_list_df['speedy_rising_volume_list']).values
+    krx_adm = fdr.StockListing('KRX-ADMINISTRATIVE')
+    # KRX 관리종목의 종목코드
+    under_ctrl = krx_adm['Symbol'].values
+    assets = np.setdiff1d(temp_assets, under_ctrl)
 
     for s in assets:
         df[s] = fdr.DataReader(s, start_date, end_date)['Close']

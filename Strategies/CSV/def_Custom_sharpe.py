@@ -17,7 +17,7 @@ warnings.filterwarnings(action='ignore')
 from Class_Strategies import Strategies as st
 
 # 국내 종목(삼성전자, SK하이닉스, 카카오, NAVER, LG화학 ) - 웹에 연결시 선택한 종목이 assets 에 들어가면 됨.
-assets =  ['005930', '000660', '035720', '035420', '051910']
+temp_assets =  ['005930', '000660', '035720', '035420', '051910']
 
 def Custom_sharpe():
     kospi_temp = fdr.StockListing('KOSPI')[['Symbol', 'Name']]
@@ -30,6 +30,13 @@ def Custom_sharpe():
     today = datetime.datetime.today().strftime("%Y%m%d")
     end_date = today
     df = pd.DataFrame()
+
+    ##################### 여기 추가됐습니다 : 관리종목 제거 ######################
+    krx_adm = fdr.StockListing('KRX-ADMINISTRATIVE')
+    # KRX 관리종목의 종목코드
+    under_ctrl = krx_adm['Symbol'].values
+    assets = np.setdiff1d(temp_assets, under_ctrl)
+    # print(assets)
 
     for s in assets:
         df[s] = fdr.DataReader(s, start_date, end_date)['Close']

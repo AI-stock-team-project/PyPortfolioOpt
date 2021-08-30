@@ -18,8 +18,8 @@ from Class_Strategies import Strategies as st
 import csv
 
 # 모멘텀 3개월
-# momentum_3months_rank  = st.momentum_3months()
-# momentum_3mos_assets = momentum_3months_rank.index[:30]
+momentum_3months_rank  = st.momentum_3months()
+momentum_3mos_assets = momentum_3months_rank.index[:30]
 #
 # with open('momentum_3mos_assets.csv','w') as file:
 #     write = csv.writer(file)
@@ -32,12 +32,18 @@ def Momentum3mos_eff():
     code_name_dict = pd.concat([kospi_temp, kosdaq_temp])
     code_name_dict = code_name_dict.set_index('Symbol').to_dict().get('Name')  # {'095570': 'AJ네트웍스',
 
-    assets = pd.read_csv('momentum_3mos_assets.csv')#np.array(momentum_3months_rank.index[:30])
+    # assets = pd.read_csv('momentum_3mos_assets.csv')#np.array(momentum_3months_rank.index[:30])
     start_date = datetime.datetime.today() - relativedelta(years=3)
     start_date = start_date.strftime('%Y%m%d')
     today = datetime.datetime.today().strftime("%Y%m%d")
     end_date = today
     df = pd.DataFrame()
+    ##################### 여기 추가됐습니다 : 관리종목 제거 ######################
+    temp_assets = np.array(momentum_3months_rank.index[:30])
+    krx_adm = fdr.StockListing('KRX-ADMINISTRATIVE')
+    # KRX 관리종목의 종목코드
+    under_ctrl = krx_adm['Symbol'].values
+    assets = np.setdiff1d(temp_assets, under_ctrl)
 
     for s in assets:
         df[s] = fdr.DataReader(s, start_date, end_date)['Close']

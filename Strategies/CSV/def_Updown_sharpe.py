@@ -18,11 +18,13 @@ from Class_Strategies import Strategies as st
 import csv
 
 # 하루 상승빈도
-# up_down_zero_df = st.get_up_down_zero_df()
+up_down_zero_df = st.get_up_down_zero_df()
 # up_down_zero_df.to_csv("up_down_zero_df.csv")
-up_down_zero_df = pd.read_csv("up_down_zero_df.csv")
-up_down_zero_df.index = up_down_zero_df['Unnamed: 0']
-up_down_zero_df = up_down_zero_df.drop('Unnamed: 0', axis=1)
+
+# up_down_zero_df = pd.read_csv("up_down_zero_df.csv")
+# up_down_zero_df.index = up_down_zero_df['Unnamed: 0']
+# up_down_zero_df = up_down_zero_df.drop('Unnamed: 0', axis=1)
+
 idx_list = up_down_zero_df.index[:30]
 symbol_udz = [] # 종목 코드만 가져오기
 for i in idx_list:
@@ -35,13 +37,20 @@ def Updown_sharpe():
     code_name_dict = pd.concat([kospi_temp, kosdaq_temp])
     code_name_dict = code_name_dict.set_index('Symbol').to_dict().get('Name')  # {'095570': 'AJ네트웍스',
 
-    assets = np.array(symbol_udz, dtype='object')
+    # assets = np.array(symbol_udz, dtype='object')
     start_date = datetime.datetime.today() - relativedelta(years=3)
     start_date = start_date.strftime('%Y%m%d')
     # start_date = '2018-08-13'
     today = datetime.datetime.today().strftime("%Y%m%d")
     end_date = today
     df = pd.DataFrame()
+    ##################### 여기 추가됐습니다 : 관리종목 제거 ######################
+    temp_assets = np.array(symbol_udz, dtype='object')
+    krx_adm = fdr.StockListing('KRX-ADMINISTRATIVE')
+    # KRX 관리종목의 종목코드
+    under_ctrl = krx_adm['Symbol'].values
+    assets = np.setdiff1d(temp_assets, under_ctrl)
+    # print(assets)
 
     for s in assets:
         df[s] = fdr.DataReader(s, start_date, end_date)['Close']

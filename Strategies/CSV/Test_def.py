@@ -10,8 +10,8 @@
 # from def_Updown_eff import Updown_eff
 # from def_Dual_sharpe import Dual_sharpe
 # from def_Dual_eff import Dual_eff
-# from def_Custom_sharpe import Custom_sharpe
-from def_Custom_eff import Custom_eff
+from def_Custom_sharpe import Custom_sharpe
+# from def_Custom_eff import Custom_eff
 
 # InstanceRaise_sharpe()
 # InstanceRaise_eff()
@@ -23,5 +23,5 @@ from def_Custom_eff import Custom_eff
 # Updown_eff()
 # Dual_sharpe()
 # Dual_eff()
-# Custom_sharpe()
-Custom_eff()
+Custom_sharpe()
+# Custom_eff()
